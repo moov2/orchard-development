@@ -124,8 +124,8 @@ module.exports = function(grunt) {
             },
 
             /**
-             * Copies override files in the web project root directory in the local v
-             ersion of Orchard's web project.
+             * Copies override files in the web project root directory in the local
+             * version of Orchard's web project.
              */
             configBuild: {
                 files: [
@@ -137,7 +137,7 @@ module.exports = function(grunt) {
              * Copies environment specific overrides, e.g. robots.txt, over files
              * about to be deployed.
              */
-            overrides: {
+            overridesEnvironment: {
                 files: [
                     { expand: true, cwd: '<%= deployment.overrides %>', src: ['**'], dest: '<%= config.paths.orchardBuildArtifacts %>' }
                 ]
@@ -312,7 +312,7 @@ module.exports = function(grunt) {
      * Example:
      * `grunt deploy -target=example`
      */
-    grunt.registerTask('deploy', ['clean:artifacts', 'build', 'transforms', 'copy:overrides', 'compress:dist', 'msdeploy:orchard']);
+    grunt.registerTask('deploy', ['clean:artifacts', 'build', 'transforms', 'copy:overridesEnvironment', 'compress:dist', 'msdeploy:orchard']);
 
     /**
      * Builds Orchard and copies a deployable version of Orchard which is placed
