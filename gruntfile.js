@@ -3,9 +3,9 @@ var path = require('path');
 module.exports = function(grunt) {
 
         /**
-         * Version of Orchard to use.
+         * Read configuration file.
          */
-    var ORCHARD_VERSION = '1.9.1',
+    var config = grunt.file.readJSON('./config.json'),
 
         /**
          * Contain credentials for deployment.
@@ -13,33 +13,29 @@ module.exports = function(grunt) {
         deployment;
 
     /**
-     * Properties used by tasks.
+     * Defines all the different directory paths to files manipulated by the grunt
+     * tasks.
      */
-    var config = {
-        version: ORCHARD_VERSION,
+    config.paths = {
+        overrides: './overrides',
+        themes: './themes',
+        modules: './modules',
+        deployment: './deployment',
 
-        // paths to directories / files used in the process.
-        paths: {
-            overrides: './overrides',
-            themes: './themes',
-            modules: './modules',
-            deployment: './deployment',
+        // msdeploy doesn't function unless this is an absolute path.
+        dist: path.resolve('./dist'),
 
-            // msdeploy doesn't function unless this is an absolute path.
-            dist: path.resolve('./dist'),
+        // path to directory that contains Orchard.
+        orchardDirectory: path.join('local', config.orchardVersion),
 
-            // path to directory that contains Orchard.
-            orchardDirectory: path.join('local', ORCHARD_VERSION),
+        // path to Orchard project file.
+        orchardProjectFile: path.join('local', config.orchardVersion, 'Orchard.proj'),
 
-            // path to Orchard project file.
-            orchardProjectFile: path.join('local', ORCHARD_VERSION, 'Orchard.proj'),
+        // path to artifacts created by Orchard build tasks.
+        orchardBuildArtifacts: path.join('local', config.orchardVersion, 'build/Precompiled'),
 
-            // path to artifacts created by Orchard build tasks.
-            orchardBuildArtifacts: path.join('local', ORCHARD_VERSION, 'build/Precompiled'),
-
-            // path to files included in MsDeploy package in order to deploy Orchard.
-            orchardMsDeployFiles: path.join('local', ORCHARD_VERSION, 'lib/msdeploy')
-        }
+        // path to files included in MsDeploy package in order to deploy Orchard.
+        orchardMsDeployFiles: path.join('local', config.orchardVersion, 'lib/msdeploy')
     };
 
     /**
@@ -224,7 +220,7 @@ module.exports = function(grunt) {
          */
         orchardDownload: {
             options: {
-                version: '<%= config.version %>'
+                version: '<%= config.orchardVersion %>'
             }
         },
 
@@ -238,7 +234,7 @@ module.exports = function(grunt) {
                 overwrite: false,
                 cwd: '<%= config.paths.modules %>',
                 src: ['*'],
-                dest: './local/<%= config.version %>/src/Orchard.Web/Modules',
+                dest: './local/<%= config.orchardVersion %>/src/Orchard.Web/Modules',
                 filter: 'isDirectory'
             },
             setupThemes: {
@@ -246,7 +242,7 @@ module.exports = function(grunt) {
                 overwrite: false,
                 cwd: '<%= config.paths.themes %>',
                 src: ['*'],
-                dest: './local/<%= config.version %>/src/Orchard.Web/Themes',
+                dest: './local/<%= config.orchardVersion %>/src/Orchard.Web/Themes',
                 filter: 'isDirectory'
             },
             teardownModules: {
@@ -255,7 +251,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '<%= config.paths.modules %>',
                     src: ['*'],
-                    dest: './local/<%= config.version %>/src/Orchard.Web/Modules',
+                    dest: './local/<%= config.orchardVersion %>/src/Orchard.Web/Modules',
                     filter: 'isDirectory'
                 }]
             },
@@ -265,7 +261,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '<%= config.paths.themes %>',
                     src: ['*'],
-                    dest: './local/<%= config.version %>/src/Orchard.Web/Themes',
+                    dest: './local/<%= config.orchardVersion %>/src/Orchard.Web/Themes',
                     filter: 'isDirectory'
                 }]
             }
