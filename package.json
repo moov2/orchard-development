@@ -1,0 +1,20 @@
+{
+  "name": "orchard-development",
+  "version": "0.1.0",
+  "description": "This project is used by Moov2 to assist with developing & deploying solutions utilising Orchard CMS.",
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-compress": "0.13.0",
+    "grunt-contrib-copy": "0.8.0",
+    "grunt-contrib-symlink": "git://github.com/peterkeating/grunt-contrib-symlink.git#53a26bd3d5a8266d04b909ff4b1c434cbd975afb",
+    "grunt-msbuild": "^0.3.3",
+    "grunt-msdeploy": "git://github.com/peterkeating/grunt-msdeploy.git#98ce22bafaf9e4bd7df9a409dfdbe0b9ce1d1777",
+    "grunt-orchard-shell": "0.2.1",
+    "grunt-xdt": "^0.1.1"
+  },
+  "scripts": {
+    "install": "grunt setup",
+    "example": "npm install && grunt deploy -target=example"
+  }
+}

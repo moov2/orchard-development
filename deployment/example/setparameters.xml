@@ -1,0 +1,5 @@
+<parameters>
+  <setParameter name="Application Path" value="example" />
+  <setParameter name="AzureMediaStorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=example;AccountKey=SuperSecretKey" />
+  <setParameter name="AzureMediaStoragePublicHostName" value="az123456.vo.msecnd.net" />
+</parameters>

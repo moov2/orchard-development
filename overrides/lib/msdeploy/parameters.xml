@@ -1,0 +1,23 @@
+﻿<parameters>
+	<!-- Prompts where to copy the content files and takes a web site path (such as "contoso.com/app") -->
+	<parameter name="Application Path" description="Full site path where you would like to install your application (i.e., Default Web Site/orchard)" defaultValue="Default Web Site/orchard" tags="iisapp">
+		<parameterEntry type="ProviderPath" scope="iisapp" match="Orchard" />
+	</parameter>
+
+	<!-- This is the parameter that is used to set ACLs, it's set to the application path filled in by the user -->
+	<parameter name="SetAclParameter1" description="Hidden - automatically sets write access for the app" defaultValue="{Application Path}/App_Data" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="Orchard/App_Data" />
+	</parameter>
+
+	<parameter name="SetAclParameter3" description="Hidden - automatically sets write access for the app" defaultValue="{Application Path}/bin/HostRestart" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="Orchard/bin/HostRestart" />
+	</parameter>
+
+	<parameter name="AzureMediaStorageConnectionString" defaultValue="">
+    	<parameterEntry type="XMLFile" scope="web.config$" match="/configuration/appSettings/add[@key='Orchard.Azure.Media.StorageConnectionString']/@value" />
+    </parameter>
+
+	<parameter name="AzureMediaStoragePublicHostName" defaultValue="">
+		<parameterEntry type="XMLFile" scope="web.config$" match="/configuration/appSettings/add[@key='Orchard.Azure.Media.StoragePublicHostName']/@value" />
+	</parameter>
+</parameters>

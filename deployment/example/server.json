@@ -1,0 +1,6 @@
+{
+    "websiteName": "example",
+    "computerName": "https://example.scm.azurewebsites.net:443/msdeploy.axd?site=example",
+    "userName": "$example",
+    "password": "SuperSecurePassword"
+}
