@@ -10,7 +10,7 @@
     "grunt-contrib-symlink": "git://github.com/peterkeating/grunt-contrib-symlink.git#53a26bd3d5a8266d04b909ff4b1c434cbd975afb",
     "grunt-msbuild": "^0.3.3",
     "grunt-msdeploy": "git://github.com/peterkeating/grunt-msdeploy.git#98ce22bafaf9e4bd7df9a409dfdbe0b9ce1d1777",
-    "grunt-orchard-shell": "0.2.1",
+    "grunt-orchard-development": "0.2.1",
     "grunt-xdt": "^0.1.1"
   },
   "scripts": {

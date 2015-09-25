@@ -280,7 +280,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-symlink');
     grunt.loadNpmTasks('grunt-msbuild');
     grunt.loadNpmTasks('grunt-msdeploy');
-    grunt.loadNpmTasks('grunt-orchard-shell');
+    grunt.loadNpmTasks('grunt-orchard-development');
     grunt.loadNpmTasks('grunt-xdt');
 
     /**
