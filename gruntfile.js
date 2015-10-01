@@ -37,6 +37,8 @@ module.exports = function(grunt) {
         // path to files included in MsDeploy package in order to deploy Orchard.
         orchardMsDeployFiles: path.join('local', config.orchardVersion, 'lib/msdeploy')
     };
+    
+    config.excludeModules = config.excludeModules || [];
 
     /**
      * loads a configuration file for the server environment that is about to
@@ -214,6 +216,16 @@ module.exports = function(grunt) {
                 modules: '<%= config.paths.modules %>'
             }
         },
+        
+        /**
+         * Removes modules from the Orchard solution.
+         */
+        removeModulesFromOrchard: {
+            options: {
+                orchard: '<%= config.paths.orchardDirectory %>',
+                modules: config.excludeModules
+            }
+        },
 
         /**
          * Obtains a copy of Orchard for development / deployment.
@@ -320,12 +332,12 @@ module.exports = function(grunt) {
      * Builds Orchard by running the precompile task in Orchard and going through
      * and building each theme.
      */
-    grunt.registerTask('build', ['orchardDownload', 'symlink:setupModules', 'addModulesToOrchard', 'symlink:teardownThemes', 'copy:overrides', 'msbuild:orchard', 'copy:configBuild', 'buildThemes', 'symlink:setupThemes']);
+    grunt.registerTask('build', ['orchardDownload', 'removeModulesFromOrchard', 'symlink:setupModules', 'addModulesToOrchard', 'symlink:teardownThemes', 'copy:overrides', 'msbuild:orchard', 'copy:configBuild', 'buildThemes', 'symlink:setupThemes']);
 
     /**
      * Sets up a local version of Orchard with custom modules, themes & configuration.
      */
-    grunt.registerTask('setup', ['orchardDownload', 'symlink:setupModules', 'addModulesToOrchard', 'symlink:setupThemes', 'copy:overrides']);
+    grunt.registerTask('setup', ['orchardDownload', 'removeModulesFromOrchard', 'symlink:setupModules', 'addModulesToOrchard', 'symlink:setupThemes', 'copy:overrides']);
 
     /**
      * Removes symlinks for modules & themes to the local orchard modules & theme

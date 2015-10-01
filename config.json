@@ -1,3 +1,4 @@
 {
-    "orchardVersion": "1.9.1"
+    "orchardVersion": "1.9.1",
+    "excludeModules": [ ]
 }
