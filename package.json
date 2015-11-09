@@ -11,7 +11,8 @@
     "grunt-msbuild": "^0.3.3",
     "grunt-msdeploy": "git://github.com/peterkeating/grunt-msdeploy.git#98ce22bafaf9e4bd7df9a409dfdbe0b9ce1d1777",
     "grunt-orchard-development": "0.4.1",
-    "grunt-xdt": "^0.1.1"
+    "grunt-xdt": "^0.1.1",
+    "load-grunt-tasks": "3.3.0"
   },
   "scripts": {
     "install": "grunt setup",

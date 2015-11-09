@@ -49,6 +49,11 @@ module.exports = function(grunt) {
         deployment.parametersFile = path.join(config.paths.deployment, grunt.option('target'), 'setparameters.xml');
         deployment.transformFile = path.join(config.paths.deployment, grunt.option('target'), 'transforms/Web.Transform.config');
     }
+    
+    /**
+     * Loads all grunt tasks.
+     */
+    require('load-grunt-tasks')(grunt);
 
     grunt.initConfig({
 
@@ -279,21 +284,6 @@ module.exports = function(grunt) {
             }
         }
     });
-
-    /**
-     * -----
-     * Third party plugins used in the build process.
-     * -----
-     */
-
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-contrib-symlink');
-    grunt.loadNpmTasks('grunt-msbuild');
-    grunt.loadNpmTasks('grunt-msdeploy');
-    grunt.loadNpmTasks('grunt-orchard-development');
-    grunt.loadNpmTasks('grunt-xdt');
 
     /**
      * -----
