@@ -12,12 +12,6 @@ local/
 dist/
 intermediate/
 
-# theme artifacts that are created as part of the build process.
-themes/**/*.css
-*.css.map
-.sass-cache/
-core.js
-
 # MSBuild artefacts.
 modules/**/[Dd]ebug/
 modules/**/[Rr]elease/
