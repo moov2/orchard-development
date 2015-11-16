@@ -48,6 +48,7 @@ module.exports = function(grunt) {
         deployment = grunt.file.readJSON(path.join(config.paths.deployment, grunt.option('target'), 'server.json'));
         deployment.parametersFile = path.join(config.paths.deployment, grunt.option('target'), 'setparameters.xml');
         deployment.transformFile = path.join(config.paths.deployment, grunt.option('target'), 'transforms/Web.Transform.config');
+        deployment.overrides = path.join(config.paths.deployment, grunt.option('target'), 'overrides');
     }
     
     /**
