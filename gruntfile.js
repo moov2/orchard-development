@@ -26,16 +26,19 @@ module.exports = function(grunt) {
         dist: path.resolve('./dist'),
 
         // path to directory that contains Orchard.
-        orchardDirectory: path.join('local', config.orchardVersion),
+        orchardDirectory: path.join('./local', config.orchardVersion),
 
         // path to Orchard project file.
-        orchardProjectFile: path.join('local', config.orchardVersion, 'Orchard.proj'),
+        orchardProjectFile: path.join('./local', config.orchardVersion, 'Orchard.proj'),
 
         // path to artifacts created by Orchard build tasks.
-        orchardBuildArtifacts: path.join('local', config.orchardVersion, 'build/Precompiled'),
+        orchardBuildArtifacts: path.join('./local', config.orchardVersion, 'build/Precompiled'),
 
         // path to files included in MsDeploy package in order to deploy Orchard.
-        orchardMsDeployFiles: path.join('local', config.orchardVersion, 'lib/msdeploy')
+        orchardMsDeployFiles: path.join('./local', config.orchardVersion, 'lib/msdeploy'),
+        
+        // path to ClickToBuild.cmd file.
+        orchardClickToBuild: 'ClickToBuild.cmd'
     };
     
     config.excludeModules = config.excludeModules || [];
@@ -160,6 +163,20 @@ module.exports = function(grunt) {
                 }
             }
         },
+        
+        /**
+         * Run ClickToBuild.cmd in order to get NuGET references.
+         */
+        shell: {
+            clickToBuild: {
+                command: 'cmd.exe /C <%= config.paths.orchardClickToBuild %> < nul',
+                options: {
+                    execOptions: {
+                        cwd: '<%= config.paths.orchardDirectory %>'
+                    }
+                }
+            }
+        },
 
         /**
          * Executes the themes independant build scripts.
@@ -241,7 +258,7 @@ module.exports = function(grunt) {
                 version: '<%= config.orchardVersion %>'
             }
         },
-
+        
         /**
          * Creates symlinks of modules & theme directories into the local version
          * of Orchard.
@@ -323,7 +340,7 @@ module.exports = function(grunt) {
      * Builds Orchard by running the precompile task in Orchard and going through
      * and building each theme.
      */
-    grunt.registerTask('build', ['orchardDownload', 'removeModulesFromOrchard', 'symlink:setupModules', 'addModulesToOrchard', 'symlink:teardownThemes', 'copy:overrides', 'msbuild:orchard', 'copy:configBuild', 'buildThemes', 'symlink:setupThemes']);
+    grunt.registerTask('build', ['orchardDownload', 'removeModulesFromOrchard', 'symlink:setupModules', 'addModulesToOrchard', 'symlink:teardownThemes', 'copy:overrides', 'shell:clickToBuild', 'msbuild:orchard', 'copy:configBuild', 'buildThemes', 'symlink:setupThemes']);
 
     /**
      * Sets up a local version of Orchard with custom modules, themes & configuration.
