@@ -1,0 +1,3 @@
+<parameters>
+  <setParameter name="Application Path" value="@@applicationName" />
+</parameters>

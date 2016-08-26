@@ -77,26 +77,18 @@ When adding new modules or themes into the project, the `grunt setup` task shoul
 
 ### Deploy
 
-As described in the [Deploying to Azure](#deploy-to-azure) section, `grunt deploy` will deploy a pre-compiled version of Orchard to a specified environment. This task will fail if the `grunt deploy` command doesn't contain a `-target` parameter that contains the name of a directory within `deployment`.
+As described in the [Deploying to Azure](#deploy-to-azure) section, `grunt deploy` will deploy a pre-compiled version of Orchard to a specified environment. This task will fail if the `grunt deploy` command doesn't contain all required deployment parameters described in the deploying to Azure section.
 
 ## Deploying to Azure
 
-One of the primary goals with this project is to make it easier to deploy Orchard to Microsoft Azure. Deployments to Azure are configured in the `deployment` directory, an example of a deployment configuration comes as default. Each environment requires it's own directory within the `deployment` directory, this is important for the Grunt command that triggers a build and deployment to Azure. 
+One of the primary goals with this project is to make it easier to deploy Orchard to Microsoft Azure. The `deployment` directory should contain environment specific files, by default the project contains files for a development environment. The `grunt deploy` command requires various arguments that describe the Azure environment to deploy to.
 
-The main configuration file that drives the deployment is `server.json`. Everything that needs to go in this file can be found in the publish profile for your Azure web app. You'll also need to update the `Application Path` parameter in `setparameters.xml` with the name of your web app.
+* `-target` - Matches name of a directory in the `deployment` folder used for configuring environment.
+* `-applicationName` - Name of the Azure site.
+* `-computerName` - Used by msdeploy to define the destination that files should be deployed to. This can be obtained via the publish profile if you're deploying to an Azure web app.
+* `-username` - Used by msdeploy to authenticate depoyment. This can be obtained via the publish profile if you're deploying to an Azure web app.
+* `-password` - Used by msdeploy to authenticate depoyment. This can be obtained via the publish profile if you're deploying to an Azure web app.
 
-To execute a deployment you'll need to run the `deploy` grunt task and pass the name of the directory inside `deployment` that contains the deployment configuration.
+Below is an example command that deploys to an Azure web app named `orchard-development`.
 
-    grunt deploy -target=example
-    
-As a shortcut, it's recommended that all deployment commands are added to the scripts object inside `package.json`. This allows you to run setup & deployment as one command, `npm run example`. 
-
-### Configuring Azure CDN
-
-If you're hosting Orchard on Azure it's [recommended](http://docs.orchardproject.net/Documentation/Deploying-Orchard-to-Windows-Azure) that blob storage and a CDN handles storing and delivering media (this is a requirement if you're going to have multiple instances). Orchard provides a module that contains a handful of features to assist with hosting on Azure. One of the features handles using Microsoft Azure Blob Storage for storing media instead of the underlying file system. The connection string and CDN endpoint are configured using parameters in `appSettings` inside the `Web.config`. 
-
-Running the deployment task, parameters in `setparameters.xml` are applied by the `msdeploy` command. Two of the parameters handle setting the connection string and CDN endpoint in the `Web.config` that is to be deployed. For the environment you're deploying to you should modify the `setparameters.xml` file (as shown in the example deployment) to set the appropriate values for the properties.
-
-### Configuring Environment
-
-When deploying to a different environment it's often the case that the configuration needs to be modified. This can be done using transforms as shown in the example deployment. Inside the `transforms` directory is an example of a `Web.config` transform that is automatically run during deployment. 
+    grunt deploy -target=dev -applicationName=orchard-development -computerName=https://orchard-development.scm.azurewebsites.net:443/msdeploy.axd?site=orchard-development -username=$orchard-development -password=w3M3JLgEhoHq5rMTJmFwlPG4QR3SW0dtkTz9hkQbc7oXJ1PJ8NC6MX9gxpxj

@@ -48,10 +48,15 @@ module.exports = function(grunt) {
      * be deployed to.
      */
     if (grunt.option('target')) {
-        deployment = grunt.file.readJSON(path.join(config.paths.deployment, grunt.option('target'), 'server.json'));
-        deployment.parametersFile = path.join(config.paths.deployment, grunt.option('target'), 'setparameters.xml');
-        deployment.transformFile = path.join(config.paths.deployment, grunt.option('target'), 'transforms/Web.Transform.config');
-        deployment.overrides = path.join(config.paths.deployment, grunt.option('target'), 'overrides');
+        deployment = {
+            transformFile: path.join(config.paths.deployment, grunt.option('target'), 'transforms/Web.Transform.config'),
+            overrides: path.join(config.paths.deployment, grunt.option('target'), 'overrides'),
+            target: grunt.option('target'),
+            applicationName: grunt.option('applicationName'),
+            computerName: grunt.option('computerName'),
+            username: grunt.option('username'),
+            password: grunt.option('password')
+        };
     }
     
     /**
@@ -86,7 +91,12 @@ module.exports = function(grunt) {
             /**
              * Removes artifacts from previous build.
              */
-            artifacts: ['<%= config.paths.dist %>']
+            artifacts: ['<%= config.paths.dist %>'],
+            
+            /**
+             * Tidies up deployment artefacts.
+             */
+            tidy: ['<%= config.paths.dist %>/setparameters.xml']
         },
 
         /**
@@ -172,7 +182,8 @@ module.exports = function(grunt) {
                 command: 'cmd.exe /C <%= config.paths.orchardClickToBuild %> < nul',
                 options: {
                     execOptions: {
-                        cwd: '<%= config.paths.orchardDirectory %>'
+                        cwd: '<%= config.paths.orchardDirectory %>',
+                        maxBuffer: Infinity
                     }
                 }
             }
@@ -216,10 +227,28 @@ module.exports = function(grunt) {
                     verb: 'sync',
                     allowUntrusted: 'true',
                     source: { package: '<%= config.paths.dist %>/Orchard.zip' },
-                    dest: "auto,ComputerName='<%= deployment.computerName %>',UserName='<%= deployment.userName %>',Password='<%= deployment.password %>',AuthType='Basic',includeAcls='False'",
+                    dest: "auto,ComputerName='<%= deployment.computerName %>',UserName='<%= deployment.username %>',Password='<%= deployment.password %>',AuthType='Basic',includeAcls='False'",
                     disableLink: ['AppPoolExtension','ContentExtension','CertificateExtension'],
                     skip: 'Directory=App_Data',
-                    setParamFile: '<%= deployment.parametersFile %>'
+                    setParamFile: '<%= config.paths.dist %>/setparameters.xml'
+                }
+            }
+        },
+        
+        /**
+         * Replaces parameters in the msdeploy parameter file with arguments
+         * passed to grunt task. 
+         */
+        'string-replace': {
+            msdeployParamFile: {
+                files: {
+                    '<%= config.paths.dist %>/setparameters.xml': '<%= config.paths.deployment %>/setparameters.xml',
+                },
+                options: {
+                    replacements: [{
+                        pattern: '@@applicationName',
+                        replacement: '<%= deployment.applicationName %>'
+                    }]
                 }
             }
         },
@@ -322,13 +351,18 @@ module.exports = function(grunt) {
      */
 
     /**
-     * Builds and deploys Orchard. For this task a `-target` must be specifed. This
-     * target must have a directory whose name matches the value of the `-target`
-     * parameter otherwise the task will fail.
+     * Builds and deploys Orchard to Azure. For this task all deployment 
+     * parameters must be specifed.
      * Example:
-     * `grunt deploy -target=example`
+     * `grunt deploy -target=dev -applicationName=orchard-development -computerName=https://orchard-development.scm.azurewebsites.net:443/msdeploy.axd?site=orchard-development -username=$orchard-development -password=w3M3JLgEhoHq5rMTJmFwlPG4QR3SW0dtkTz9hkQbc7oXJ1PJ8NC6MX9gxpxj`
      */
-    grunt.registerTask('deploy', ['clean:artifacts', 'build', 'transforms', 'copy:overridesEnvironment', 'compress:dist', 'msdeploy:orchard']);
+    grunt.registerTask('deploy', 'Deploys the distributable to an Azure server environment.', function () {
+        if (!deployment.target || !deployment.applicationName || !deployment.computerName || !deployment.password || !deployment.username) {
+            grunt.fail.fatal('Missing required parameters for deploy (`-target`, `-applicationName`, -computerName`, `-password`, `-username`).');
+        }
+
+        grunt.task.run(['clean:artifacts', 'build', 'transforms', 'copy:overridesEnvironment', 'compress:dist', 'string-replace:msdeployParamFile', 'msdeploy:orchard', 'clean:tidy']);
+    });
 
     /**
      * Builds Orchard and copies a deployable version of Orchard which is placed
