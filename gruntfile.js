@@ -229,7 +229,7 @@ module.exports = function(grunt) {
                     source: { package: '<%= config.paths.dist %>/Orchard.zip' },
                     dest: "auto,ComputerName='<%= deployment.computerName %>',UserName='<%= deployment.username %>',Password='<%= deployment.password %>',AuthType='Basic',includeAcls='False'",
                     disableLink: ['AppPoolExtension','ContentExtension','CertificateExtension'],
-                    skip: 'Directory=App_Data',
+                    skip: {skipAction: "'Delete'", objectName: "'dirPath'", absolutePath: "'.*\\\\App_Data$'"},
                     setParamFile: '<%= config.paths.dist %>/setparameters.xml'
                 }
             }
