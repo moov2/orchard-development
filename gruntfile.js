@@ -112,8 +112,8 @@ module.exports = function(grunt) {
                     archive: '<%= config.paths.dist %>/Orchard.zip'
                 },
                 files: [
-                    { expand: true, cwd: '<%= config.paths.orchardMsDeployFiles %>', src: ['**'], dest: '', filter: 'isFile' },
-                    { expand: true, cwd: '<%= config.paths.orchardBuildArtifacts %>', src: ['**'], dest: 'Orchard/' }
+                    { expand: true, cwd: '<%= config.paths.orchardMsDeployFiles %>', src: ['**', '!App_Data/**'], dest: '', filter: 'isFile' },
+                    { expand: true, cwd: '<%= config.paths.orchardBuildArtifacts %>', src: ['**', '!App_Data/**'], dest: 'Orchard/' }
                 ]
             }
         },
