@@ -28,3 +28,6 @@
 [submodule "modules/Moov2.Orchard.SocialShare"]
 	path = modules/Moov2.Orchard.SocialShare
 	url = git@github.com:moov2/Moov2.Orchard.SocialShare.git
+[submodule "themes/DevelopmentTheme"]
+	path = themes/DevelopmentTheme
+	url = git@github.com:moov2/orchard-development-theme.git

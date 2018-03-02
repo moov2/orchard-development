@@ -1,1 +1,0 @@
-Place your custom orchard themes in this directory
