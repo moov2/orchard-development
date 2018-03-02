@@ -1,0 +1,30 @@
+[submodule "modules/Moov2.Orchard.SEO"]
+	path = modules/Moov2.Orchard.SEO
+	url = git@github.com:moov2/Moov2.Orchard.SEO.git
+[submodule "modules/Moov2.Orchard.Editor"]
+	path = modules/Moov2.Orchard.Editor
+	url = git@github.com:moov2/Moov2.Orchard.Editor.git
+[submodule "modules/Moov2.Orchard.EditContentWidget"]
+	path = modules/Moov2.Orchard.EditContentWidget
+	url = git@github.com:moov2/Moov2.Orchard.EditContentWidget.git
+[submodule "modules/Moov2.Orchard.Featured"]
+	path = modules/Moov2.Orchard.Featured
+	url = git@github.com:moov2/Moov2.Orchard.Featured.git
+[submodule "modules/Moov2.Orchard.Ace"]
+	path = modules/Moov2.Orchard.Ace
+	url = git@github.com:moov2/Moov2.Orchard.Ace.git
+[submodule "modules/Moov2.Orchard.Hero"]
+	path = modules/Moov2.Orchard.Hero
+	url = git@github.com:moov2/Moov2.Orchard.Hero.git
+[submodule "modules/Moov2.Orchard.FindReplace"]
+	path = modules/Moov2.Orchard.FindReplace
+	url = git@github.com:moov2/Moov2.Orchard.FindReplace.git
+[submodule "modules/Moov2.Orchard.ImportExport"]
+	path = modules/Moov2.Orchard.ImportExport
+	url = git@github.com:moov2/Moov2.Orchard.ImportExport.git
+[submodule "modules/Moov2.Orchard.MigrateMedia"]
+	path = modules/Moov2.Orchard.MigrateMedia
+	url = git@github.com:moov2/Moov2.Orchard.MigrateMedia.git
+[submodule "modules/Moov2.Orchard.SocialShare"]
+	path = modules/Moov2.Orchard.SocialShare
+	url = git@github.com:moov2/Moov2.Orchard.SocialShare.git
